@@ -1,0 +1,29 @@
+name: ${project.name}
+main: de.minebench.recordingmode.MbRecordingMode
+version: '${minecraft.plugin.version}'
+description: ${project.description}
+authors: [Phoenix616]
+depend: [VanishNoPacket]
+commands:
+   recordingmode:
+      aliases: [recording, record]
+      description: Main plugin command
+      usage: /<command> [check|toggle [<player>]|reload]
+      permission: mbrecordingmode.command
+      permission-message: You don't have the permission <permission>
+permissions:
+   mbrecordingmode.worldswitch:
+      description: Gives permission to switch the worlds while keeü being in recording mode
+      default: op
+   mbrecordingmode.command:
+      description: Gives permission to the plugin command
+      default: op
+   mbrecordingmode.command.reload:
+      description: Gives permission to reload the plugin
+      default: op
+   mbrecordingmode.command.toggle.others:
+      description: Gives permission to toggle others
+      default: op
+   mbrecordingmode.command.check.others:
+      description: Gives permission to check others
+      default: op
