@@ -131,6 +131,7 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
      * Enabled ot disable the recording features
      */
     private void setFeatures(Player player, boolean enabled) {
+        player.setAllowFlight(enabled);
         player.setFlying(enabled);
         if (enabled) {
             boolean sleepingIgnored = player.isSleepingIgnored();
