@@ -44,6 +44,7 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
     private ConfigAccessor recordingYml;
 
     private VanishPlugin vnp;
+    private String prefix = ChatColor.DARK_RED + "\u25cf " + ChatColor.RESET;
 
     public void onEnable() {
         recordingYml = new ConfigAccessor(this, "recording.yml");
@@ -152,7 +153,11 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
                 Team newTeam = player.getScoreboard().getTeam(teamName);
                 if (newTeam == null) {
                     newTeam = player.getScoreboard().registerNewTeam(teamName);
-                    newTeam.setPrefix(ChatColor.DARK_RED + "\u25cf " + team.getPrefix()); // black filled circle
+                    try  {
+                        newTeam.setPrefix(prefix + team.getPrefix()); // black filled circle
+                    } catch (IllegalArgumentException e){ // prefix longer than 32
+                        newTeam.setPrefix(team.getPrefix());
+                    }
                     newTeam.setSuffix(team.getSuffix());
                 }
                 team = newTeam;
@@ -177,7 +182,7 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
                         tagTeam.addEntry(player.getName());
                     } else {
                         tagTeam = player.getScoreboard().registerNewTeam(teamName);
-                        tagTeam.setPrefix(team.getPrefix().substring(3));
+                        tagTeam.setPrefix(team.getPrefix().substring(5));
                         tagTeam.setSuffix(team.getSuffix());
                     }
                     tagTeam.addEntry(player.getName());
