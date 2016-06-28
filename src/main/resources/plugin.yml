@@ -13,7 +13,10 @@ commands:
       permission-message: You don't have the permission <permission>
 permissions:
    mbrecordingmode.worldswitch:
-      description: Gives permission to switch the worlds while keeü being in recording mode
+      description: Gives permission to switch the worlds while being in recording mode
+      default: op
+   mbrecordingmode.logout:
+      description: Gives permission to logout while being in recording mode
       default: op
    mbrecordingmode.command:
       description: Gives permission to the plugin command

@@ -202,8 +202,15 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
     }
 
     @EventHandler
+    public void onLogout(PlayerJoinEvent event) {
+        if (isRecording(event.getPlayer()) && !event.getPlayer().hasPermission("mbrecordingmode.logout")) {
+            setFeatures(event.getPlayer(), false);
+        }
+    }
+
+    @EventHandler
     public void onLogin(PlayerJoinEvent event) {
-        if (isRecording(event.getPlayer())) {
+        if (isRecording(event.getPlayer()) && !event.getPlayer().hasPermission("mbrecordingmode.logout")) {
             setRecording(event.getPlayer(), false);
         }
     }
