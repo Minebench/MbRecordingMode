@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
@@ -202,7 +203,7 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onLogout(PlayerJoinEvent event) {
+    public void onLogout(PlayerQuitEvent event) {
         if (isRecording(event.getPlayer()) && !event.getPlayer().hasPermission("mbrecordingmode.logout")) {
             setFeatures(event.getPlayer(), false);
         }
