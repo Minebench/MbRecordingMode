@@ -6,7 +6,7 @@ authors: [Phoenix616]
 depend: [VanishNoPacket]
 commands:
    recordingmode:
-      aliases: [recording, record]
+      aliases: [recording, record, rec]
       description: Main plugin command
       usage: /<command> [check|toggle [<player>]|reload]
       permission: mbrecordingmode.command
