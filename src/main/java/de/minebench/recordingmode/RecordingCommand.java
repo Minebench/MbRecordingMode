@@ -49,7 +49,11 @@ public class RecordingCommand implements CommandExecutor {
             } else if("toggle".equalsIgnoreCase(args[0])) {
                 Player player = getPlayer(sender, label, args);
                 if(player != null) {
-                    if(plugin.toggleRecording(player) && player != sender) {
+                    boolean setRecording = plugin.isRecording(player);
+                    if(args.length > 1) {
+                        setRecording = "on".equalsIgnoreCase(args[1]);
+                    }
+                    if(plugin.toggleRecording(player, setRecording) && player != sender) {
                         sender.sendMessage(ChatColor.YELLOW + "Recording for " + player.getName() + " is now " +
                                 (plugin.isRecording(player) ?
                                         ChatColor.DARK_RED + "enabled" :

@@ -86,7 +86,23 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
      */
     public boolean toggleRecording(CommandSender sender) {
         if (sender instanceof Player) {
-            if (setRecording((Player) sender, !isRecording((Player) sender))) {
+            return toggleRecording(sender, !isRecording((Player) sender));
+        } else {
+            sender.sendMessage(ChatColor.RED + "Only a player can be set to recording!");
+        }
+        return false;
+    }
+
+    /**
+     * Toggle the recording state of a player
+     *
+     * @param sender The player to set the state for
+     * @param enabled On/Off
+     * @return <tt>true</tt> if the state was changed, <tt>false</tt> if it wasn't
+     */
+    public boolean toggleRecording(CommandSender sender, boolean enabled) {
+        if (sender instanceof Player) {
+            if (setRecording((Player) sender, enabled)) {
                 sender.sendMessage(ChatColor.YELLOW + "You are " + (
                         isRecording((Player) sender) ?
                                 "now " + ChatColor.DARK_RED + "RECORDING" :
