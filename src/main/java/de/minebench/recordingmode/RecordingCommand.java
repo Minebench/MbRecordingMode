@@ -40,8 +40,8 @@ public class RecordingCommand implements CommandExecutor {
                                     "You are" :
                                     player.getName() + " is") +
                             (plugin.isRecording(player) ?
-                                    ChatColor.GREEN :
-                                    " not" + ChatColor.RED)
+                                    ChatColor.DARK_RED :
+                                    " not" + ChatColor.GRAY)
                             + " RECORDING"
                     );
                 }
@@ -52,8 +52,8 @@ public class RecordingCommand implements CommandExecutor {
                     if(plugin.toggleRecording(player) && player != sender) {
                         sender.sendMessage(ChatColor.YELLOW + "Recording for " + player.getName() + " is now " +
                                 (plugin.isRecording(player) ?
-                                        ChatColor.GREEN + "enabled" :
-                                        ChatColor.RED + "disabled")
+                                        ChatColor.DARK_RED + "enabled" :
+                                        ChatColor.GRAY + "disabled")
                         );
                     } else {
                         sender.sendMessage(ChatColor.RED + "Unknown error while toggling recording?");

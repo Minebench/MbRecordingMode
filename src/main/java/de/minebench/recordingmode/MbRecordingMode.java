@@ -89,8 +89,8 @@ public class MbRecordingMode extends JavaPlugin implements Listener {
             if (setRecording((Player) sender, !isRecording((Player) sender))) {
                 sender.sendMessage(ChatColor.YELLOW + "You are " + (
                         isRecording((Player) sender) ?
-                                "now " + ChatColor.GREEN + "RECORDING" :
-                                "no longer " + ChatColor.RED + "RECORDING"
+                                "now " + ChatColor.DARK_RED + "RECORDING" :
+                                "no longer " + ChatColor.GRAY + "RECORDING"
                 ) + ChatColor.YELLOW + "!");
                 return true;
             }
