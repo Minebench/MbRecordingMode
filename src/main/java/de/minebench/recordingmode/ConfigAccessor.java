@@ -25,55 +25,66 @@ package de.minebench.recordingmode;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class ConfigAccessor {
 
     private final String fileName;
-    private final JavaPlugin plugin;
+    protected final Plugin plugin;
 
     private File configFile;
     private FileConfiguration fileConfiguration;
+    private FileConfiguration defaults;
 
-    public ConfigAccessor(JavaPlugin plugin, String fileName) {
+    public ConfigAccessor(Plugin plugin, String fileName) {
         if (plugin == null)
             throw new IllegalArgumentException("plugin cannot be null");
         this.plugin = plugin;
         this.fileName = fileName;
+        File dataFolder = plugin.getDataFolder();
+        if (dataFolder == null)
+            throw new IllegalStateException();
+        this.configFile = new File(plugin.getDataFolder(), fileName);
+        this.defaults = getDefaults();
     }
 
     public void reloadConfig() {
-        if (configFile == null) {
-            File dataFolder = plugin.getDataFolder();
-            if (dataFolder == null)
-                throw new IllegalStateException();
-            configFile = new File(dataFolder, fileName);
-        }
         fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
-        // Look for defaults in the jar
-        InputStream defConfigStream = plugin.getResource(fileName);
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            fileConfiguration.setDefaults(defConfig);
+        if (defaults != null) {
+            fileConfiguration.setDefaults(defaults);
         }
     }
 
     public FileConfiguration getConfig() {
         if (fileConfiguration == null) {
-            this.reloadConfig();
+            if (defaults != null) {
+                return defaults;
+            } else {
+                reloadConfig();
+            }
         }
         return fileConfiguration;
     }
 
+    public FileConfiguration getDefaults() {
+        if (defaults == null) {
+            // Look for defaults in the jar
+            InputStream defConfigStream = plugin.getResource(fileName);
+            if (defConfigStream != null) {
+                return YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream));
+            }
+        }
+        return defaults;
+    }
+
     public void saveConfig() {
-        if (fileConfiguration == null || configFile == null) {
-            return;
-        } else {
+        if (fileConfiguration != null && configFile != null) {
             try {
                 getConfig().save(configFile);
             } catch (IOException ex) {
@@ -83,16 +94,9 @@ public class ConfigAccessor {
     }
 
     public void saveDefaultConfig() {
-        if (configFile == null || !configFile.exists()) {
-            plugin.saveResource(fileName, false);
+        if (!configFile.exists()) {
+            this.plugin.saveResource(fileName, false);
         }
-    }
-
-    public File getFile() {
-        File dataFolder = plugin.getDataFolder();
-        if (dataFolder == null)
-            throw new IllegalStateException();
-        return new File(dataFolder, fileName);
     }
 
 }
